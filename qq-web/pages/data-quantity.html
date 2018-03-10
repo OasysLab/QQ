@@ -1,0 +1,31 @@
+					<!-- BEGIN PAGE BAR -->
+                    <div class="page-bar">
+                        <ul class="page-breadcrumb">
+                            <li>
+                                <a href="#/">View Data</a>
+                                <i class="fa fa-circle"></i>
+                            </li>
+                            <li>
+                                <span>Data Quantity</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END PAGE BAR -->
+                    
+                    <!-- BEGIN PAGE TITLE-->
+                    <h2 class="page-title bold">Data</h2>
+                    <hr>
+                    <div class="portlet light bordered">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="icon-bar-chart font-dark hide"></i>
+                                <span class="caption-subject font-dark bold uppercase">Data Quantity</span>
+                                <!-- <span class="caption-helper">weekly stats...</span> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div ng-controller="DataQuantityController as showCase">
+                                <table datatable="" dt-options="showCase.dtOptions" dt-columns="showCase.dtColumns" dt-instance="showCase.dtInstance" class="table table-hover table-bordered"></table>
+                            </div>
+                        </div>
+                    </div>
