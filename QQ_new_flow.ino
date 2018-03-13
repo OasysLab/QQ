@@ -76,7 +76,7 @@ int ReinSensorPin = A2;
 int analogPin_ultrasonic = A3;
 int PumpWaterPin = 3;
 
-String StationID = "221";
+String StationID = "213"; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Station ID
 int State = 0;
 int ch = 0;
 
@@ -315,6 +315,7 @@ void loop()
         digitalClockDisplay();
         Average_Data();
         temperature();
+        Sent_Status("pump");
         if(temperate[5] <= -123)
         {
           SentError("watertemp",0);
@@ -398,6 +399,7 @@ void loop()
         digitalClockDisplay();
         Average_Data();
         temperature();
+        Sent_Status("pump");
         if(temperate[5] <= -123)
         {
           SentError("watertemp",0);
@@ -956,7 +958,8 @@ void SendData_Quality()
   message = "";
   Serial.println("-------------------------------SEND DATA QUALITY------------------------------------------");
   // String URL = "http://nahmchan.oasys-lab.com/getData_waterQQ_station.php?";
-  String URL = "http://139.59.251.210/api-qq/send_db_quality.php?temp=99";
+  // String URL = "http://139.59.251.210/api-qq/send_db_quality.php?temp=99";
+  String URL = "http://www.thaiwaterqq.com/api-qq/send_db_quality.php?";
   String field1 = "&StationID=" + StationID;
   String field2 = "&D_O=" + (String)("%.2f",result[0]);
   String field3 = "&pH=" + (String)("%.2f",result[1]);
@@ -1007,7 +1010,8 @@ void SendData_ultra()
   message = "";
   Serial.println("-------------------------------SEND DATA ULTRASONIC------------------------------------------");
 //  String URL = "http://nahmchan.oasys-lab.com/getData_waterQQ_station.php?";
-  String URL = "http://139.59.251.210/api-qq/send_db_quantity.php?";
+  // String URL = "http://139.59.251.210/api-qq/send_db_quantity.php?";
+  String URL = "http://www.thaiwaterqq.com/api-qq/send_db_quantity.php?";
   String field1 = "&StationID=" + StationID;
   String field2 = "&ultra=" + (String)(distance_cal);;
 
@@ -1074,7 +1078,7 @@ void SentError(String error_type,int code_error)
 {
   message = "";
   Serial.println("-------------------------------SEND ERROR STATUS------------------------------------------");
-  String URL = "http://139.59.251.210/api-qq/send_db_status.php?";
+  String URL = "http://www.thaiwaterqq.com/api-qq/send_db_status.php?";
   String field1 = "&StationID=" + StationID;
   String field2;
 
@@ -1145,7 +1149,7 @@ void Sent_Status(String type)
 {
   message = "";
   Serial.println("-------------------------------SEND ACTIVE STATUS------------------------------------------");
-  String URL = "http://139.59.251.210/api-qq/send_db_status.php?";
+  String URL = "http://www.thaiwaterqq.com/api-qq/send_db_status.php?";
   String field1 = "&StationID=" + StationID;
   String field2;
 
@@ -1222,7 +1226,7 @@ bool Sync_data()
   Serial.println(F("Start HTTP"));
   http.begin(1);
   Serial.println(F("Send HTTP GET"));
-  String url_sync = "http://139.59.251.210/api-qq/get_station_config.php?StationID=" + StationID;
+  String url_sync = "http://www.thaiwaterqq.com/api-qq/get_station_config.php?StationID=" + StationID;
   http.url(url_sync);
   Serial.println(http.get());
  
@@ -1279,7 +1283,7 @@ bool Sync_time()
   Serial.println(F("Start HTTP"));
   http.begin(1);
   Serial.println(F("Send HTTP GET"));
-  String url_sync = "http://139.59.251.210/api-qq/sync_time.php";
+  String url_sync = "http://www.thaiwaterqq.com/api-qq/sync_time.php";
   http.url(url_sync);
   Serial.println(http.get());
  
@@ -1333,7 +1337,7 @@ void change_mode()
   Serial.println(F("Start HTTP"));
   http.begin(1);
   Serial.println(F("Send HTTP GET"));
-  String url_sync = "http://139.59.251.210/api-qq/change_mode.php?StationID=" + StationID + "&mode=1";
+  String url_sync = "http://www.thaiwaterqq.com/api-qq/change_mode.php?StationID=" + StationID + "&mode=1";
   http.url(url_sync);
   Serial.println(http.get());
  
