@@ -80,6 +80,7 @@ String StationID = "213"; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 int State = 0;
 int ch = 0;
 
+bool reset_manual = false;
 bool Have_Reset = false;
 bool Start_Flow = false;
 bool Start_Read_Sensor = false;
@@ -89,6 +90,7 @@ bool Finish_Read = false;
 bool Start_Frist_Time = true;
 bool saveMode = false;
 bool testMode = true;
+bool testMode_mode3 = true;
 
 
 int mode;
@@ -248,6 +250,11 @@ void setup()
 
 void loop() 
 {
+  if(reset_manual)
+  {
+    change_reset();
+    Software_Reset();
+  }
   now = RTC.now();
   if (RTC.checkIfAlarm(1)) {
     Sync_time();
@@ -366,7 +373,7 @@ void loop()
         CountRound++;
       }
 
-      if (!Start_Flow && now.minute() % 10 == 0 && now.second() < 5)
+      if (!Start_Flow && now.minute() % 5 == 0 && now.second() < 5)
       {
         Sync_data();
       }
@@ -450,7 +457,7 @@ void loop()
         CountRound++;
       }
 
-      if ((!Start_Flow && now.minute() % ultrasonic_routine == 0 && now.second() < 2 )|| (testMode && !Start_Flow))
+      if ((!Start_Flow && now.minute() % ultrasonic_routine == 0 && now.second() < 2 )|| (testMode_mode3 && Finish_Read))
       {
         getUltrasonic();
         if(distance_cal < 10)
@@ -958,8 +965,8 @@ void SendData_Quality()
   message = "";
   Serial.println("-------------------------------SEND DATA QUALITY------------------------------------------");
   // String URL = "http://nahmchan.oasys-lab.com/getData_waterQQ_station.php?";
-  // String URL = "http://139.59.251.210/api-qq/send_db_quality.php?temp=99";
-  String URL = "http://www.thaiwaterqq.com/api-qq/send_db_quality.php?";
+  String URL = "http://139.59.251.210/api-qq/send_db_quality.php?";
+  // String URL = "http://www.thaiwaterqq.com/api-qq/send_db_quality.php?";
   String field1 = "&StationID=" + StationID;
   String field2 = "&D_O=" + (String)("%.2f",result[0]);
   String field3 = "&pH=" + (String)("%.2f",result[1]);
@@ -999,7 +1006,7 @@ void SendData_Quality()
     NextPinRoutine();
   }
 
-  if(testMode && mode == 2)
+  if(testMode)
   {
     testMode = !testMode;
   }
@@ -1010,8 +1017,8 @@ void SendData_ultra()
   message = "";
   Serial.println("-------------------------------SEND DATA ULTRASONIC------------------------------------------");
 //  String URL = "http://nahmchan.oasys-lab.com/getData_waterQQ_station.php?";
-  // String URL = "http://139.59.251.210/api-qq/send_db_quantity.php?";
-  String URL = "http://www.thaiwaterqq.com/api-qq/send_db_quantity.php?";
+  String URL = "http://139.59.251.210/api-qq/send_db_quantity.php?";
+  // String URL = "http://www.thaiwaterqq.com/api-qq/send_db_quantity.php?";
   String field1 = "&StationID=" + StationID;
   String field2 = "&ultra=" + (String)(distance_cal);;
 
@@ -1060,6 +1067,7 @@ void SendData_ultra()
     mode = root["mode"];
     ultrasonic_routine = root["time_sync"];
     time_routine = root["routine"];
+    reset_manual = root["reset_manual"];
     for(int i =0;i<2;i++)
     {
       round_H[i] = root["round_H"][i];
@@ -1072,13 +1080,19 @@ void SendData_ultra()
   {
     testMode = !testMode;
   }
+
+  if(testMode_mode3 && mode == 3)
+  {
+    testMode_mode3 = !testMode_mode3;
+  }
 }
 
 void SentError(String error_type,int code_error)
 {
   message = "";
   Serial.println("-------------------------------SEND ERROR STATUS------------------------------------------");
-  String URL = "http://www.thaiwaterqq.com/api-qq/send_db_status.php?";
+  String URL = "http://139.59.251.210/api-qq/send_db_status.php?";
+  // String URL = "http://www.thaiwaterqq.com/api-qq/send_db_status.php?";
   String field1 = "&StationID=" + StationID;
   String field2;
 
@@ -1139,17 +1153,14 @@ void SentError(String error_type,int code_error)
   Serial.println(F("Disconnect net"));
   net.DisConnect();
 
-  if(testMode)
-  {
-    testMode = !testMode;
-  }
 }
 
 void Sent_Status(String type)
 {
   message = "";
   Serial.println("-------------------------------SEND ACTIVE STATUS------------------------------------------");
-  String URL = "http://www.thaiwaterqq.com/api-qq/send_db_status.php?";
+  String URL = "http://139.59.251.210/api-qq/send_db_status.php?";
+  // String URL = "http://www.thaiwaterqq.com/api-qq/send_db_status.php?";
   String field1 = "&StationID=" + StationID;
   String field2;
 
@@ -1215,6 +1226,9 @@ bool Sync_data()
 {
   message ="";
   Serial.println("-------------------------------SYNC DATA------------------------------------------");
+  // String url_sync = "http://www.thaiwaterqq.com/api-qq/get_station_config.php?StationID=" + StationID;
+  String url_sync = "http://139.59.251.210/api-qq/get_station_config.php?StationID=" + StationID;
+
   Serial.println(F("Disconnect net"));
   net.DisConnect();
   Serial.println(F("Set APN and Password"));
@@ -1226,7 +1240,6 @@ bool Sync_data()
   Serial.println(F("Start HTTP"));
   http.begin(1);
   Serial.println(F("Send HTTP GET"));
-  String url_sync = "http://www.thaiwaterqq.com/api-qq/get_station_config.php?StationID=" + StationID;
   http.url(url_sync);
   Serial.println(http.get());
  
@@ -1258,6 +1271,7 @@ bool Sync_data()
     mode = root["mode"];
     ultrasonic_routine = root["time_sync"];
     time_routine = root["routine"];
+    reset_manual = root["reset_manual"];
     for(int i =0;i<2;i++)
     {
       round_H[i] = root["round_H"][i];
@@ -1272,6 +1286,9 @@ bool Sync_time()
 {
   message = "";
   Serial.println("-------------------------------SYNC TIME------------------------------------------");
+  // String url_sync = "http://www.thaiwaterqq.com/api-qq/sync_time.php";
+  String url_sync = "http://139.59.251.210/api-qq/sync_time.php";
+
   Serial.println(F("Disconnect net"));
   net.DisConnect();
   Serial.println(F("Set APN and Password"));
@@ -1283,7 +1300,6 @@ bool Sync_time()
   Serial.println(F("Start HTTP"));
   http.begin(1);
   Serial.println(F("Send HTTP GET"));
-  String url_sync = "http://www.thaiwaterqq.com/api-qq/sync_time.php";
   http.url(url_sync);
   Serial.println(http.get());
  
@@ -1325,6 +1341,9 @@ void change_mode()
 {
   message = "";
   Serial.println("-------------------------------CHANGE MODE------------------------------------------");
+  // String url_sync = "http://www.thaiwaterqq.com/api-qq/change_mode.php?StationID=" + StationID + "&mode=1";
+  String url_sync = "http://139.59.251.210/api-qq/change_mode.php?StationID=" + StationID + "&mode=1";
+
   SentError("pump",0);
   Serial.println(F("Disconnect net"));
   net.DisConnect();
@@ -1337,7 +1356,38 @@ void change_mode()
   Serial.println(F("Start HTTP"));
   http.begin(1);
   Serial.println(F("Send HTTP GET"));
-  String url_sync = "http://www.thaiwaterqq.com/api-qq/change_mode.php?StationID=" + StationID + "&mode=1";
+  http.url(url_sync);
+  Serial.println(http.get());
+ 
+  Serial.println(F("Clear data in RAM"));
+  file.Delete(RAM,"*");
+  Serial.println(F("Save HTTP Response To RAM"));
+  http.SaveResponseToMemory(RAM,"web.hml");
+  Serial.println(F("Read data in RAM"));
+  read_message(RAM,"web.hml");
+  
+  Serial.println(F("Disconnect net"));
+  net.DisConnect();
+}
+
+void change_reset()
+{
+  message = "";
+  Serial.println("-------------------------------CHANGE MODE------------------------------------------");
+  // String url_sync = "http://www.thaiwaterqq.com/api-qq/change_mode.php?StationID=" + StationID + "&reset=0";
+  String url_sync = "http://139.59.251.210/api-qq/change_mode.php?StationID=" + StationID + "&reset=0";
+
+  Serial.println(F("Disconnect net"));
+  net.DisConnect();
+  Serial.println(F("Set APN and Password"));
+  net.Configure(APN, USER, PASS);
+  Serial.println(F("Connect net"));
+  net.Connect();
+  Serial.println(F("Show My IP"));
+  Serial.println(net.GetIP());
+  Serial.println(F("Start HTTP"));
+  http.begin(1);
+  Serial.println(F("Send HTTP GET"));
   http.url(url_sync);
   Serial.println(http.get());
  
@@ -1380,6 +1430,7 @@ void Reset_Board()
   }
   Have_Reset = true;
 }
+
 
 void Software_Reset()
 {
