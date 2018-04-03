@@ -1,0 +1,4 @@
+[Database]
+username: root
+password: qwerty1234
+db_name: qq_project

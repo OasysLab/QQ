@@ -1,3 +1,122 @@
+<style>
+        .dok-noti:hover
+        {
+            cursor: default;
+        }
+        </style>
+        <!--BEGIN HEADER -->
+        <div class="page-header navbar navbar-fixed-top">
+            <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="#/status">
+                        <!-- <img src="public/assets/layouts/layout/img/logovpn.png" alt="logo" class="logo-default" />  -->
+                        <div alt="logo" class="logo-default"> Water Quality </div>
+                    </a>
+                    <div class="menu-toggler sidebar-toggler"> </div>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <div class="top-menu">
+                    <ul class="nav navbar-nav pull-right">
+                        <li class="dropdown dropdown-user">
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <img alt="" class="img-circle" src="./public/img/User-Default.jpg">
+                                <!-- <span class="username username-hide-on-mobile"> Nick </span> -->
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-default">
+                                <!-- <li>
+                                    <a href="../custom/adminprofile">
+                                        <i class="icon-user"></i> My Profile </a>
+                                </li> -->
+                                <li>
+                                    <a ng-click="logout()">
+                                        <i class="icon-key"></i> Log Out </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+        <!--END HEADER -->
+        <div class="clearfix"> </div>
+
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- BEGIN SIDEBAR -->
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <div class="page-sidebar navbar-collapse collapse">
+                    <!-- BEGIN SIDEBAR MENU -->
+                    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+                    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+                    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+                    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" >
+                        <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+                        <li class="sidebar-toggler-wrapper hide">
+                            <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                            <div class="sidebar-toggler"> </div>
+                            <!-- END SIDEBAR TOGGLER BUTTON -->
+                        </li>
+                        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+                        <br>
+                        <li class="heading">
+                            <h3 class="uppercase bold"> View Data </h3>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#/status" class="nav-link">
+                                <i class="fa fa-bar-chart"></i>
+                                <span class="title">Status</span>
+                                <!-- <span class="selected"></span> -->
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item ">
+                            <a href="#/data-quantity" class="nav-link ">
+                                <i class="fa fa-line-chart"></i>
+                                <span class="title"> Water Level </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item ">
+                            <a href="#/data-quality" class="nav-link">
+                                <i class="fa fa-eyedropper"></i>
+                                <span class="title"> Water Quality </span>
+                            </a>
+                        </li>                       
+
+                        <li class="heading">
+                            <h3 class="uppercase bold"> Setting </h3>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a href="#/config" class="nav-link">
+                                <i class="fa fa-gear"></i>
+                                <span class="title"> Config Station </span>
+
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- END SIDEBAR MENU -->
+                </div>
+                <!-- END SIDEBAR -->
+            </div>
+            <!-- END SIDEBAR -->
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <div class="page-content">
 					<!-- BEGIN PAGE BAR -->
                     <div class="page-bar">
                         <ul class="page-breadcrumb">
@@ -29,3 +148,14 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- END CONTENT -->
+        </div>
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+    </body>

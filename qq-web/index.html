@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html ng-app="adminDash">
+    <head>
+        <meta charset="utf-8" />
+        <title>QQ</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <!-- <link rel="shortcut icon" href="public/public/assets/pages/img/avatars/team11.jpg" /> -->
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/font-awesome/css/font-awesome.min.css?94845" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/simple-line-icons/simple-line-icons.min.css?94845" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/bootstrap/css/bootstrap.min.css?94845" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/uniform/css/uniform.default.css?94845" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css?94845" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/css/components-rounded.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/css/plugins.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/layouts/layout/css/layout.min.css?94845" />
+        <link rel="stylesheet" type="text/css" href="public/assets/layouts/layout/css/custom.min.css?94845" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/morris/morris.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/fullcalendar/fullcalendar.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/clockface/css/clockface.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/datatables/datatables.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css" />
+        <link rel="stylesheet" type="text/css" href="http://l-lin.github.io/angular-datatables/archives/dist/css/angular-datatables.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/pages/css/profile.min.css" />
+        <link rel="stylesheet" type="text/css" href="public/assets/layouts/layout/css/themes/darkblue.min.css" />
+    </head>
+    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+        <ng-view></ng-view>
+    </body>
+    <script type="text/javascript" src="public/assets/global/plugins/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/bootstrap/js/bootstrap.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/js.cookie.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/jquery.blockui.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/uniform/jquery.uniform.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/global/scripts/app.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/layouts/layout/scripts/layout.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/layouts/layout/scripts/demo.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/layouts/global/scripts/quick-sidebar.min.js?94845"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/moment.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/flot/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/flot/jquery.flot.resize.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/flot/jquery.flot.categories.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/counterup/jquery.waypoints.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/clockface/js/clockface.js"></script>
+    <script type="text/javascript" src="public/assets/global/scripts/datatable.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script type="text/javascript" src="public/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="public/assets/pages/scripts/components-date-time-pickers.js"></script>
+    <script type="text/javascript" src="public/assets/pages/scripts/table-datatables-buttons.min.js"></script>
+    <script type="text/javascript" src="public/js/angular/angular.min.js?94845"></script>
+    <script type="text/javascript" src="public/js/angular/angular-animate.min.js?94845"></script>
+    <script type="text/javascript" src="public/js/angular/angular-route.min.js?94845"></script>
+    <script type="text/javascript" src="public/js/angular/angular-aria.min.js?94845"></script>
+    <script type="text/javascript" src="public/js/angular/angular-messages.min.js?94845"></script>
+    <script type="text/javascript" src="public/js/plugins/angular-material/angular-material.min.js?94845"></script>
+    <script type="text/javascript" src="public/js/plugins/angular-chart/chart.min.js?43169"></script>
+    <script type="text/javascript" src="public/js/plugins/angular-chart/angular-chart.min.js?43169"></script>
+    <script type="text/javascript" src="http://l-lin.github.io/angular-datatables/archives/dist/angular-datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="public/js/page/admin.js"></script>
+</html>

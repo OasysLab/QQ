@@ -76,8 +76,7 @@ int ReinSensorPin = A2;
 int analogPin_ultrasonic = A3;
 int PumpWaterPin = 3;
 
-String StationID = "213"; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Station ID
-int State = 0;
+String StationID = "203"; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Station ID
 int ch = 0;
 
 bool reset_manual = false;
@@ -92,7 +91,7 @@ bool saveMode = false;
 bool testMode = true;
 bool testMode_mode3 = true;
 
-
+int countjson = 0;
 int mode;
 int pinRoutine = 0;
 int ultrasonic_routine;
@@ -483,14 +482,37 @@ void loop()
 
 void NextPinRoutine()
 {
-  if(round_H[pinRoutine+1] == 99)
+  Serial.print("pinRoutine : ");
+  Serial.println(pinRoutine);
+  for(int i=0; i<2; i++)
+  {
+    Serial.print("H ");
+    Serial.print(i);
+    Serial.print(" : ");
+    Serial.println(round_H[i]);
+    Serial.print("M ");
+    Serial.print(i);
+    Serial.print(" : ");
+    Serial.println(round_M[i]);
+  }
+  if(pinRoutine == 1)
   {
     pinRoutine = 0;
   }
   else
   {
-    pinRoutine++;
+    if(round_H[pinRoutine+1] == 99)
+    {
+      pinRoutine = 0;
+    }
+    else
+    {
+      pinRoutine++;
+    }
   }
+
+  Serial.print("pinRoutine : ");
+  Serial.println(pinRoutine);
 }
 
 void TimeOnTop()
@@ -685,12 +707,9 @@ void runTime()
   {
     if((now.hour() == TimePumpErrorHour && now.minute() == TimePumpErrorMin && !Have_Reset))
     {
-      State = 1;
-      if(mode == 2)
-      {
-        Reset_Board();
-      }
-      else if(mode == 3)
+      Reset_Board();
+      
+      if(mode == 3)
       {
         change_mode();
       }
@@ -1048,15 +1067,41 @@ void SendData_ultra()
   Serial.println(F("Disconnect net"));
   net.DisConnect();
 
+  json();
+
+  if(testMode)
+  {
+    testMode = !testMode;
+  }
+
+  if(testMode_mode3 && mode == 3)
+  {
+    testMode_mode3 = !testMode_mode3;
+  }
+}
+
+void json()
+{
   StaticJsonBuffer<700> jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(message);
 
   if (!root.success()) 
   {
     Serial.println("parseObject() failed");
+    if(countjson < 10)
+    {
+      countjson++;
+      json();
+    }
+    else
+    {
+      countjson = 0;
+      saveMode = true;
+    }
   }
   else
   {
+    countjson = 0;
     delayBeforeReset = root["reset"];
     durationBeforePumpError = root["duration"];
     RainSensor_Overflow = root["overflow"];
@@ -1069,19 +1114,17 @@ void SendData_ultra()
     for(int i =0;i<2;i++)
     {
       round_H[i] = root["round_H"][i];
-      round_M[i] = root["round_M"][i];  
+      round_M[i] = root["round_M"][i];
+      Serial.print("H ");
+      Serial.print(i);
+      Serial.print(" : ");
+      Serial.println(round_H[i]);
+      Serial.print("M ");
+      Serial.print(i);
+      Serial.print(" : ");
+      Serial.println(round_M[i]);
     }
     saveMode = false;  
-  }
-
-  if(testMode)
-  {
-    testMode = !testMode;
-  }
-
-  if(testMode_mode3 && mode == 3)
-  {
-    testMode_mode3 = !testMode_mode3;
   }
 }
 
@@ -1096,31 +1139,31 @@ void SentError(String error_type,int code_error)
 
   if(error_type == "pump")
   {
-    field2 = "&pump=" + code_error;
+    field2 = "&pump=" + (String)code_error;
   }
   else if(error_type == "power_sen")
   {
-    field2 = "&power_sen=" + code_error;
+    field2 = "&power_sen=" + (String)code_error;
   }
   else if(error_type == "ultrasonic")
   {
-    field2 = "&ultrasonic=" + code_error;
+    field2 = "&ultrasonic=" + (String)code_error;
   }
   else if(error_type == "doxigen")
   {
-    field2 = "&doxigen=" + code_error;
+    field2 = "&doxigen=" + (String)code_error;
   }
   else if(error_type == "ph")
   {
-    field2 = "&ph=" + code_error;
+    field2 = "&ph=" + (String)code_error;
   }
   else if(error_type == "conductivity")
   {
-    field2 = "&conductivity=" + code_error;
+    field2 = "&conductivity=" + (String)code_error;
   }
   else if(error_type == "watertemp")
   {
-    field2 = "&watertemp=" + code_error;
+    field2 = "&watertemp=" + (String)code_error;
   }
 
   String SendData_string = URL + field1 + field2;
@@ -1251,16 +1294,32 @@ bool Sync_data()
   Serial.println(F("Disconnect net"));
   net.DisConnect();
 
+  return json2();
+
+}
+
+bool json2()
+{
   StaticJsonBuffer<700> jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(message);
 
   if (!root.success()) 
   {
     Serial.println("parseObject() failed");
-    return false;
+    if(countjson < 10)
+    {
+      countjson++;
+      json2();
+    }
+    else
+    {
+      countjson = 0;
+      return false;
+    }
   }
   else
   {
+    countjson = 0;
     delayBeforeReset = root["reset"];
     durationBeforePumpError = root["duration"];
     RainSensor_Overflow = root["overflow"];
@@ -1273,11 +1332,18 @@ bool Sync_data()
     for(int i =0;i<2;i++)
     {
       round_H[i] = root["round_H"][i];
-      round_M[i] = root["round_M"][i];  
+      round_M[i] = root["round_M"][i];
+      Serial.print("H ");
+      Serial.print(i);
+      Serial.print(" : ");
+      Serial.println(round_H[i]);
+      Serial.print("M ");
+      Serial.print(i);
+      Serial.print(" : ");
+      Serial.println(round_M[i]);  
     }  
     return true;
   }
-
 }
 
 bool Sync_time()
